@@ -18,49 +18,69 @@ export default function LessonsPage() {
   return (
     <div className="flex-1 pt-20 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-12">
-          <span className="text-[#6366f1] font-semibold text-sm uppercase tracking-wider">Lessons</span>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-4">
-            Learn Programming Step by Step
+        {/* Header */}
+        <div className="py-12 md:py-20">
+          <div className="inline-flex items-center gap-3 bg-[#7c3aed]/15 border border-[#7c3aed]/30 px-4 py-2 rounded-full mb-6">
+            <span className="text-[#a78bfa] font-medium">📚 Structured Learning</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mt-2 mb-4">
+            Learn Programming
+            <span className="text-gradient"> Step by Step</span>
           </h1>
-          <p className="text-[#64748b] max-w-2xl">
-            Master the fundamentals of programming with our interactive lessons.
+          <p className="text-[#94a3b8] text-lg max-w-2xl">
+            Master the fundamentals with interactive lessons. 
             Each lesson includes theory, examples, and hands-on practice.
           </p>
         </div>
 
+        {/* Progress Bar */}
+        <div className="mb-12 p-6 bg-[#16161d] rounded-2xl border border-[#2a2a3a]">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-white font-medium">Your Progress</span>
+            <span className="text-[#a78bfa] font-semibold">
+              {completedLessons.length}/{lessons.length} Complete
+            </span>
+          </div>
+          <div className="h-2 bg-[#2a2a3a] rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] rounded-full transition-all"
+              style={{ width: `${(completedLessons.length / lessons.length) * 100}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Lessons Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {lessons.map((lesson) => {
+          {lessons.map((lesson, index) => {
             const isCompleted = completedLessons.includes(lesson.id);
             return (
               <Link
                 key={lesson.id}
                 href={`/lessons/${lesson.id}`}
-                className="group bg-[#12121a] rounded-xl p-6 border border-[#2e2e3a] hover:border-[#6366f1] transition-all hover:-translate-y-1"
+                className="card-elevated p-6 rounded-2xl group"
+                style={{ animationDelay: `${index * 50}ms` }}
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="text-4xl">{lesson.icon}</div>
+                  <div className="text-5xl transform group-hover:scale-110 transition-transform">
+                    {lesson.icon}
+                  </div>
                   {isCompleted && (
-                    <span className="w-8 h-8 bg-[#34d399]/20 rounded-full flex items-center justify-center">
-                      <svg className="w-5 h-5 text-[#34d399]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </span>
+                    <span className="badge badge-success">✓ Done</span>
                   )}
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-[#6366f1] transition-colors">
+                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-[#a78bfa] transition-colors">
                   {lesson.title}
                 </h3>
-                <p className="text-[#64748b] text-sm mb-4">{lesson.description}</p>
+                <p className="text-[#64748b] text-sm mb-4 line-clamp-2">{lesson.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className={`text-xs px-3 py-1 rounded-full ${
+                  <span className={`badge ${
                     lesson.difficulty === "Beginner" 
-                      ? "bg-[#34d399]/20 text-[#34d399]" 
-                      : "bg-[#fbbf24]/20 text-[#fbbf24]"
+                      ? "badge-success" 
+                      : "badge-warning"
                   }`}>
                     {lesson.difficulty}
                   </span>
-                  <span className="text-[#6366f1] text-sm group-hover:translate-x-1 transition-transform">
+                  <span className="text-[#7c3aed] text-sm group-hover:translate-x-1 transition-transform">
                     {isCompleted ? "Review →" : "Start →"}
                   </span>
                 </div>
@@ -69,13 +89,13 @@ export default function LessonsPage() {
           })}
         </div>
 
-        <div className="mt-12 text-center">
-          <Link
-            href="/practice"
-            className="inline-flex items-center gap-2 text-[#6366f1] font-semibold hover:gap-3 transition-all"
-          >
-            Ready for Practice?
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        {/* CTA */}
+        <div className="mt-16 text-center p-10 bg-gradient-to-r from-[#7c3aed]/20 to-[#06b6d4]/10 rounded-2xl border border-[#7c3aed]/30">
+          <h3 className="text-xl font-bold text-white mb-3">Ready to Practice?</h3>
+          <p className="text-[#64748b] mb-6">Test your knowledge with coding exercises</p>
+          <Link href="/practice" className="btn-primary inline-flex items-center gap-2">
+            Go to Practice
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>

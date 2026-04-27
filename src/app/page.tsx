@@ -4,7 +4,14 @@ import Link from "next/link";
 import { lessons } from "@/data/lessons";
 import { useEffect, useState, useCallback } from "react";
 
-const heroImages = [
+const features = [
+  { icon: "📚", title: "Interactive Lessons", desc: "Learn by doing with hands-on examples" },
+  { icon: "💻", title: "Code Editor", desc: "Write and run JavaScript in your browser" },
+  { icon: "🎯", title: "Practice Challenges", desc: "Test your knowledge with exercises" },
+  { icon: "📊", title: "Track Progress", desc: "Monitor your learning journey" },
+];
+
+const heroSlides = [
   { icon: "💻", title: "Write Code", desc: "Create with JavaScript" },
   { icon: "🧠", title: "Learn Logic", desc: "Build problem skills" },
   { icon: "🚀", title: "Build Projects", desc: "Apply your knowledge" },
@@ -29,88 +36,134 @@ export default function Home() {
     setDarkMode(stored === "dark");
   }, []);
 
-  const textPrimary = darkMode ? "text-white" : "text-slate-900";
-  const textSecondary = darkMode ? "text-[#94a3b8]" : "text-slate-600";
-  const bgCard = darkMode ? "bg-[#12121a]" : "bg-white";
-  const bgCardLight = darkMode ? "bg-[#1a1a24]" : "bg-slate-50";
-  const borderCard = darkMode ? "border-[#2e2e3a]" : "border-slate-200";
-
   const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(nextSlide, 3000);
+    const timer = setInterval(nextSlide, 4000);
     return () => clearInterval(timer);
   }, [nextSlide]);
 
+  const colors = {
+    bg: darkMode ? "var(--bg-dark)" : "var(--bg-dark)",
+    textPrimary: darkMode ? "#f1f5f9" : "#ffffff",
+    textSecondary: darkMode ? "#94a3b8" : "#94a3b8",
+    card: darkMode ? "var(--bg-card)" : "#1e1e2a",
+    cardBg: darkMode ? "var(--bg-surface)" : "#16161d",
+    border: darkMode ? "var(--border)" : "#2a2a3a",
+  };
+
   return (
     <div className="flex-1 pt-16">
-      <section className="relative py-20 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#6366f1]/10 via-transparent to-[#f472b6]/10" />
-        <div className="absolute top-20 left-10 w-72 h-72 bg-[#6366f1]/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#f472b6]/20 rounded-full blur-3xl" />
+      {/* Hero Section */}
+      <section className="relative py-24 lg:py-36 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#7c3aed]/20 via-transparent to-[#06b6d4]/10" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#7c3aed]/15 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#06b6d4]/10 rounded-full blur-[100px]" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-[#6366f1]/20 px-4 py-2 rounded-full mb-6">
-                <span className="w-2 h-2 bg-[#34d399] rounded-full animate-pulse" />
-                <span className={"text-sm font-medium " + textSecondary}>Start learning programming today</span>
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left Content */}
+            <div className="text-center lg:text-left animate-slide-up">
+              <div className="inline-flex items-center gap-3 bg-[#7c3aed]/15 border border-[#7c3aed]/30 px-4 py-2 rounded-full mb-8">
+                <span className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
+                <span className="text-sm font-medium text-[#a78bfa]">Free for beginners</span>
               </div>
               
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-                <span className={textPrimary}>Learn to </span>
-                <span className="bg-gradient-to-r from-[#6366f1] via-[#22d3ee] to-[#f472b6] bg-clip-text text-transparent">
-                  Code
-                </span>
-                <span className={"block " + textPrimary}>the Right Way</span>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1]">
+                <span className="text-white">Master </span>
+                <span className="text-gradient">Programming</span>
+                <span className="block text-white mt-2">from Scratch</span>
               </h1>
               
-              <p className={"text-lg md:text-xl mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed " + textSecondary}>
-                Interactive lessons, hands-on practice, and real-time code execution.
-                Master programming from zero to hero at your own pace.
+              <p className="text-lg md:text-xl text-[#94a3b8] mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                Learn coding through interactive lessons, hands-on practice, 
+                and real-time code execution. No experience needed.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Link
-                  href="/lessons"
-                  className="px-8 py-4 bg-gradient-to-r from-[#6366f1] to-[#818cf8] text-white font-semibold rounded-full hover:opacity-90 transition-opacity inline-flex items-center justify-center gap-2"
-                >
-                  Start Learning
+                <Link href="/lessons" className="btn-primary inline-flex items-center justify-center gap-2">
+                  Start Learning Free
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </Link>
-                <Link
-                  href="/practice"
-                  className={"px-8 py-4 border-2 font-semibold rounded-full hover:border-[#6366f1] hover:text-[#6366f1] transition-colors inline-flex items-center justify-center gap-2 " + (darkMode ? "border-[#2e2e3a] text-white" : "border-slate-300 text-slate-700")}
-                >
-                  Practice Now
+                <Link href="/practice" className="btn-secondary inline-flex items-center justify-center gap-2">
+                  View Curriculum
                 </Link>
+              </div>
+
+              {/* Stats */}
+              <div className="flex gap-8 mt-12 pt-8 border-t border-[#2a2a3a] justify-center lg:justify-start">
+                {[
+                  { value: "5", label: "Lessons" },
+                  { value: "12+", label: "Exercises" },
+                  { value: "100%", label: "Free" },
+                ].map((stat, i) => (
+                  <div key={i} className="text-center">
+                    <div className="text-2xl font-bold text-white">{stat.value}</div>
+                    <div className="text-sm text-[#64748b]">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
 
+            {/* Right - Animated Card */}
             <div className="hidden lg:block relative">
-              <div className="relative w-full aspect-square max-w-md mx-auto">
-                <div className="absolute inset-0 bg-gradient-to-r from-[#6366f1] to-[#f472b6] rounded-3xl opacity-30" />
-                <div className={"relative rounded-3xl p-8 min-h-[300px] flex flex-col items-center justify-center " + bgCard + " border " + borderCard}>
-                  {heroImages.map((slide, index) => (
+              <div className="relative w-full max-w-md mx-auto">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] rounded-[40px] blur-2xl opacity-40" />
+                <div className="relative bg-[#16161d] border border-[#2a2a3a] rounded-3xl p-10 min-h-[360px] overflow-hidden">
+                  {/* Code Preview */}
+                  <div className="absolute top-6 left-6 right-6 h-40 bg-[#0d0d12] rounded-xl p-4 font-mono text-sm border border-[#2a2a3a]">
+                    <div className="flex gap-2 mb-3">
+                      <span className="w-3 h-3 rounded-full bg-[#ef4444]" />
+                      <span className="w-3 h-3 rounded-full bg-[#f59e0b]" />
+                      <span className="w-3 h-3 rounded-full bg-[#10b981]" />
+                    </div>
+                    <pre className="text-[#22d3ee] text-xs leading-relaxed">
+{`// Start learning!
+const learn = true;
+const practice = "daily";
+
+function success() {
+  return learn && practice;
+}
+
+console.log("Hello, World!");`}
+                    </pre>
+                  </div>
+
+                  {/* Slides */}
+                  {heroSlides.map((slide, index) => (
                     <div
                       key={index}
-                      className={"absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 " + (index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-90")}
+                      className={`absolute bottom-10 left-6 right-6 transition-all duration-700 ${
+                        index === currentSlide 
+                          ? "opacity-100 translate-y-0" 
+                          : "opacity-0 translate-y-4"
+                      }`}
                     >
-                      <div className="text-8xl mb-4">{slide.icon}</div>
-                      <div className={"text-2xl font-bold mb-2 " + textPrimary}>{slide.title}</div>
-                      <div className={textSecondary}>{slide.desc}</div>
+                      <div className="flex items-center gap-4 p-4 bg-[#1e1e2a] rounded-xl border border-[#2a2a3a]">
+                        <span className="text-4xl">{slide.icon}</span>
+                        <div>
+                          <div className="font-semibold text-white">{slide.title}</div>
+                          <div className="text-sm text-[#64748b]">{slide.desc}</div>
+                        </div>
+                      </div>
                     </div>
                   ))}
-                  <div className="absolute bottom-4 flex gap-2">
-                    {heroImages.map((_, index) => (
-                      <button
+
+                  {/* Dots */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                    {heroSlides.map((_, index) => (
+                      <div
                         key={index}
-                        onClick={() => setCurrentSlide(index)}
-                        className={"w-2 h-2 rounded-full transition-all " + (index === currentSlide ? "bg-[#6366f1] w-6" : (darkMode ? "bg-[#2e2e3a]" : "bg-slate-300"))}
+                        className={`h-1.5 rounded-full transition-all ${
+                          index === currentSlide 
+                            ? "w-6 bg-[#7c3aed]" 
+                            : "w-1.5 bg-[#2a2a3a]"
+                        }`}
                       />
                     ))}
                   </div>
@@ -121,157 +174,97 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 bg-[#12121a]">
+      {/* Features Section */}
+      <section className="py-24 bg-[#16161d]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { value: "5", label: "Core Lessons", icon: "📚" },
-              { value: "12+", label: "Exercises", icon: "💪" },
-              { value: "100%", label: "Free Forever", icon: "🎉" },
-              { value: "0", label: "Setup Required", icon: "⚡" },
-            ].map((stat, index) => (
-              <div key={index} className="text-center p-6 bg-[#1a1a24] rounded-xl border border-[#2e2e3a]">
-                <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.value}</div>
-                <div className="text-[#64748b] text-sm">{stat.label}</div>
+          <div className="text-center mb-16">
+            <span className="badge badge-primary mb-4">Why CodeLearn</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4">Everything You Need to Learn</h2>
+            <p className="text-[#64748b] mt-4 max-w-xl mx-auto">
+              A complete learning platform designed specifically for beginners
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <div 
+                key={index} 
+                className="card-elevated p-6 rounded-2xl animate-scale-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
+                <p className="text-[#64748b] text-sm">{feature.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20">
+      {/* Lessons Preview */}
+      <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-[#6366f1] font-semibold text-sm uppercase tracking-wider">Lessons</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">Start Your Journey</h2>
-            <p className="text-[#64748b] mt-4 max-w-xl mx-auto">
-              Learn programming fundamentals step by step with interactive lessons designed for complete beginners.
-            </p>
+          <div className="flex items-center justify-between mb-12">
+            <div>
+              <h2 className="text-3xl font-bold text-white">Featured Lessons</h2>
+              <p className="text-[#64748b] mt-2">Start with the basics</p>
+            </div>
+            <Link href="/lessons" className="btn-secondary hidden md:inline-flex">
+              View All Lessons
+            </Link>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {lessons.map((lesson, index) => {
+            {lessons.slice(0, 6).map((lesson, index) => {
               const isCompleted = completedLessons.includes(lesson.id);
               return (
                 <Link
                   key={lesson.id}
                   href={`/lessons/${lesson.id}`}
-                  className="group bg-[#12121a] rounded-xl p-6 border border-[#2e2e3a] hover:border-[#6366f1] transition-all hover:-translate-y-1"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  className="card-elevated p-6 rounded-2xl group"
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <div className="text-4xl">{lesson.icon}</div>
+                    <span className="text-4xl">{lesson.icon}</span>
                     {isCompleted && (
-                      <span className="w-8 h-8 bg-[#34d399]/20 rounded-full flex items-center justify-center">
-                        <svg className="w-5 h-5 text-[#34d399]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </span>
+                      <span className="badge badge-success">✓ Complete</span>
                     )}
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-[#6366f1] transition-colors">
+                  <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-[#7c3aed] transition-colors">
                     {lesson.title}
                   </h3>
-                  <p className="text-[#64748b] text-sm mb-4">{lesson.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span className={`text-xs px-3 py-1 rounded-full ${
-                      lesson.difficulty === "Beginner" 
-                        ? "bg-[#34d399]/20 text-[#34d399]" 
-                        : "bg-[#fbbf24]/20 text-[#fbbf24]"
-                    }`}>
-                      {lesson.difficulty}
-                    </span>
-                    <span className="text-[#6366f1] text-sm group-hover:translate-x-1 transition-transform">
-                      Start →
-                    </span>
-                  </div>
+                  <p className="text-[#64748b] text-sm mb-4 line-clamp-2">{lesson.description}</p>
+                  <span className={`badge ${
+                    lesson.difficulty === "Beginner" 
+                      ? "badge-success" 
+                      : "badge-warning"
+                  }`}>
+                    {lesson.difficulty}
+                  </span>
                 </Link>
               );
             })}
           </div>
-        </div>
-      </section>
 
-      <section className="py-20 bg-gradient-to-br from-[#12121a] to-[#0a0a0f]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="text-[#22d3ee] font-semibold text-sm uppercase tracking-wider">Code Playground</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-6">
-                Learn by Doing
-              </h2>
-              <p className="text-[#64748b] mb-8 leading-relaxed">
-                Write code directly in your browser and see instant results. 
-                Our interactive code editor lets you experiment with JavaScript 
-                and learn from your mistakes in real-time.
-              </p>
-              <ul className="space-y-4 mb-8">
-                {[
-                  "Instant feedback on your code",
-                  "No installation required",
-                  "Beginner-friendly examples",
-                  "Learn JavaScript basics"
-                ].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3 text-[#94a3b8]">
-                    <span className="w-6 h-6 bg-[#34d399]/20 rounded-full flex items-center justify-center">
-                      <svg className="w-4 h-4 text-[#34d399]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href="/lessons/1"
-                className="inline-flex items-center gap-2 text-[#6366f1] font-semibold hover:gap-3 transition-all"
-              >
-                Try First Lesson
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-            </div>
-            
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#6366f1] to-[#f472b6] rounded-xl blur-2xl opacity-30" />
-              <div className="relative bg-[#12121a] rounded-xl overflow-hidden border border-[#2e2e3a]">
-                <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a24] border-b border-[#2e2e3a]">
-                  <div className="w-3 h-3 rounded-full bg-[#f87171]" />
-                  <div className="w-3 h-3 rounded-full bg-[#fbbf24]" />
-                  <div className="w-3 h-3 rounded-full bg-[#34d399]" />
-                </div>
-                <pre className="p-4 text-sm font-mono text-[#22d3ee] overflow-x-auto">
-{`// Your first program!
-console.log("Hello, World!");
-
-// Variables
-let name = "Developer";
-let skills = ["JavaScript"];
-
-console.log("Welcome, " + name);`}
-                </pre>
-              </div>
-            </div>
+          <div className="text-center mt-8 md:hidden">
+            <Link href="/lessons" className="btn-secondary">
+              View All Lessons
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      {/* CTA Section */}
+      <section className="py-24 bg-gradient-to-br from-[#7c3aed]/20 via-[#16161d] to-[#06b6d4]/10">
+        <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Start Coding?
+            Ready to Start Your Journey?
           </h2>
-          <p className="text-[#64748b] mb-8 text-lg">
-            Join thousands of beginners who have started their programming journey.
-            No experience needed - just curiosity!
+          <p className="text-[#64748b] text-lg mb-10">
+            Join thousands of beginners who are already learning to code. 
+            Start today - it's completely free!
           </p>
-          <Link
-            href="/lessons"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#6366f1] to-[#818cf8] text-white font-semibold rounded-full hover:opacity-90 transition-opacity"
-          >
-            Get Started Free
+          <Link href="/lessons" className="btn-primary inline-flex items-center gap-2 text-lg px-10 py-5">
+            Get Started Now
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
