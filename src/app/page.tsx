@@ -2,10 +2,19 @@
 
 import Link from "next/link";
 import { lessons } from "@/data/lessons";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+
+const heroImages = [
+  { icon: "💻", title: "Write Code", desc: "Create with JavaScript" },
+  { icon: "🧠", title: "Learn Logic", desc: "Build problem skills" },
+  { icon: "🚀", title: "Build Projects", desc: "Apply your knowledge" },
+  { icon: "⚡", title: "Go Live", desc: "Deploy anywhere" },
+];
 
 export default function Home() {
   const [completedLessons, setCompletedLessons] = useState<number[]>([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("codelearn_progress");
@@ -15,6 +24,26 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    const stored = localStorage.getItem("codelearn_theme");
+    setDarkMode(stored === "dark");
+  }, []);
+
+  const textPrimary = darkMode ? "text-white" : "text-slate-900";
+  const textSecondary = darkMode ? "text-[#94a3b8]" : "text-slate-600";
+  const bgCard = darkMode ? "bg-[#12121a]" : "bg-white";
+  const bgCardLight = darkMode ? "bg-[#1a1a24]" : "bg-slate-50";
+  const borderCard = darkMode ? "border-[#2e2e3a]" : "border-slate-200";
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 3000);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
+
   return (
     <div className="flex-1 pt-16">
       <section className="relative py-20 lg:py-32 overflow-hidden">
@@ -23,41 +52,70 @@ export default function Home() {
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#f472b6]/20 rounded-full blur-3xl" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-[#6366f1]/20 px-4 py-2 rounded-full mb-6">
-              <span className="w-2 h-2 bg-[#34d399] rounded-full animate-pulse" />
-              <span className="text-sm font-medium text-[#94a3b8]">Start learning programming today</span>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 bg-[#6366f1]/20 px-4 py-2 rounded-full mb-6">
+                <span className="w-2 h-2 bg-[#34d399] rounded-full animate-pulse" />
+                <span className={"text-sm font-medium " + textSecondary}>Start learning programming today</span>
+              </div>
+              
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+                <span className={textPrimary}>Learn to </span>
+                <span className="bg-gradient-to-r from-[#6366f1] via-[#22d3ee] to-[#f472b6] bg-clip-text text-transparent">
+                  Code
+                </span>
+                <span className={"block " + textPrimary}>the Right Way</span>
+              </h1>
+              
+              <p className={"text-lg md:text-xl mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed " + textSecondary}>
+                Interactive lessons, hands-on practice, and real-time code execution.
+                Master programming from zero to hero at your own pace.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Link
+                  href="/lessons"
+                  className="px-8 py-4 bg-gradient-to-r from-[#6366f1] to-[#818cf8] text-white font-semibold rounded-full hover:opacity-90 transition-opacity inline-flex items-center justify-center gap-2"
+                >
+                  Start Learning
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+                <Link
+                  href="/practice"
+                  className={"px-8 py-4 border-2 font-semibold rounded-full hover:border-[#6366f1] hover:text-[#6366f1] transition-colors inline-flex items-center justify-center gap-2 " + (darkMode ? "border-[#2e2e3a] text-white" : "border-slate-300 text-slate-700")}
+                >
+                  Practice Now
+                </Link>
+              </div>
             </div>
-            
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              <span className="text-white">Learn to </span>
-              <span className="bg-gradient-to-r from-[#6366f1] via-[#22d3ee] to-[#f472b6] bg-clip-text text-transparent">
-                Code
-              </span>
-              <span className="block text-white">the Right Way</span>
-            </h1>
-            
-            <p className="text-lg md:text-xl text-[#94a3b8] mb-10 max-w-2xl mx-auto leading-relaxed">
-              Interactive lessons, hands-on practice, and real-time code execution.
-              Master programming from zero to hero at your own pace.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/lessons"
-                className="px-8 py-4 bg-gradient-to-r from-[#6366f1] to-[#818cf8] text-white font-semibold rounded-full hover:opacity-90 transition-opacity inline-flex items-center justify-center gap-2"
-              >
-                Start Learning
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-              <Link
-                href="/practice"
-                className="px-8 py-4 border-2 border-[#2e2e3a] text-white font-semibold rounded-full hover:border-[#6366f1] hover:text-[#6366f1] transition-colors inline-flex items-center justify-center gap-2"
-              >
-                Practice Now
-              </Link>
+
+            <div className="hidden lg:block relative">
+              <div className="relative w-full aspect-square max-w-md mx-auto">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#6366f1] to-[#f472b6] rounded-3xl opacity-30" />
+                <div className={"relative rounded-3xl p-8 min-h-[300px] flex flex-col items-center justify-center " + bgCard + " border " + borderCard}>
+                  {heroImages.map((slide, index) => (
+                    <div
+                      key={index}
+                      className={"absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 " + (index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-90")}
+                    >
+                      <div className="text-8xl mb-4">{slide.icon}</div>
+                      <div className={"text-2xl font-bold mb-2 " + textPrimary}>{slide.title}</div>
+                      <div className={textSecondary}>{slide.desc}</div>
+                    </div>
+                  ))}
+                  <div className="absolute bottom-4 flex gap-2">
+                    {heroImages.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={"w-2 h-2 rounded-full transition-all " + (index === currentSlide ? "bg-[#6366f1] w-6" : (darkMode ? "bg-[#2e2e3a]" : "bg-slate-300"))}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

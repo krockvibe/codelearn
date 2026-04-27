@@ -14,7 +14,7 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const [progress, setProgress] = useState({ completed: 0, total: 5 });
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("codelearn_progress");
@@ -29,11 +29,10 @@ export default function Navbar() {
 
   useEffect(() => {
     const stored = localStorage.getItem("codelearn_theme");
-    if (stored) {
-      setDarkMode(stored === "dark");
-      if (stored === "light") {
-        document.documentElement.classList.add("light");
-      }
+    const isDark = stored === "dark";
+    setDarkMode(isDark);
+    if (!isDark) {
+      document.documentElement.classList.add("light");
     }
   }, []);
 
