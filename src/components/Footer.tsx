@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const footerLinks = [
   {
-    title: "Platform",
+    title: "Learn",
     links: [
       { href: "/lessons", label: "Lessons" },
       { href: "/practice", label: "Practice" },
@@ -21,23 +21,23 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0d0d12] border-t border-[#2a2a3a] py-16">
+    <footer className="bg-[#0f0f14] border-t border-[#2d2d3a] py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#7c3aed] to-[#06b6d4] rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold">CL</span>
+            <Link href="/" className="flex items-center gap-2 mb-4">
+              <div className="w-9 h-9 bg-gradient-to-br from-[#569cd6] to-[#4ec9b0] rounded-lg flex items-center justify-center">
+                <span className="text-[#0f0f14] font-bold text-sm">CL</span>
               </div>
-              <span className="text-xl font-bold text-white">CodeLearn</span>
+              <span className="text-lg font-bold text-[#d4d4d4]">Code<span className="text-[#569cd6]">Learn</span></span>
             </Link>
-            <p className="text-[#64748b] max-w-sm mb-6">
-              The beginner-friendly platform to learn programming. 
-              Start coding today with interactive lessons and hands-on practice.
+            <p className="text-[#6a6a6a] max-w-xs mb-5">
+              Learn programming with an interactive code editor. 
+              Start building real projects today.
             </p>
             <div className="flex gap-4">
-              {["Twitter", "GitHub", "Discord"].map((social) => (
-                <a key={social} href="#" className="text-[#64748b] hover:text-white transition-colors text-sm">
+              {["GitHub", "Twitter", "Discord"].map((social) => (
+                <a key={social} href="#" className="text-[#6a6a6a] hover:text-[#569cd6] transition-colors text-sm">
                   {social}
                 </a>
               ))}
@@ -46,13 +46,13 @@ export default function Footer() {
 
           {footerLinks.map((section) => (
             <div key={section.title}>
-              <h4 className="text-white font-semibold mb-4">{section.title}</h4>
-              <ul className="space-y-3">
+              <h4 className="text-[#d4d4d4] font-semibold mb-4">{section.title}</h4>
+              <ul className="space-y-2">
                 {section.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-[#64748b] hover:text-white transition-colors text-sm"
+                      className="text-[#6a6a6a] hover:text-[#d4d4d4] transition-colors text-sm"
                     >
                       {link.label}
                     </Link>
@@ -63,16 +63,19 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t border-[#2a2a3a] flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[#64748b] text-sm">
-            © 2026 CodeLearn. Built for beginners.
+        <div className="mt-10 pt-6 border-t border-[#2d2d3a] flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[#6a6a6a] text-sm">
+            © 2026 CodeLearn. MIT License.
           </p>
-          <div className="flex items-center gap-6">
-            <Link href="#" className="text-[#64748b] hover:text-white transition-colors text-sm">
-              Privacy Policy
+          <div className="flex gap-6">
+            <Link href="#" className="text-[#6a6a6a] hover:text-[#d4d4d4] transition-colors text-sm">
+              Privacy
             </Link>
-            <Link href="#" className="text-[#64748b] hover:text-white transition-colors text-sm">
-              Terms of Service
+            <Link href="#" className="text-[#6a6a6a] hover:text-[#d4d4d4] transition-colors text-sm">
+              Terms
+            </Link>
+            <Link href="#" className="text-[#6a6a6a] hover:text-[#d4d4d4] transition-colors text-sm">
+              Cookies
             </Link>
           </div>
         </div>
